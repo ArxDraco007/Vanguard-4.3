@@ -61,6 +61,14 @@ export const TeacherFeedbackSystem: React.FC<TeacherFeedbackSystemProps> = ({ cu
     setIsSubmitting(true)
     
     try {
+      console.log('Submitting feedback with data:', {
+        candidate_id: selectedCandidate,
+        reviewer_id: currentUser.id,
+        reviewer_type: currentUser.role,
+        rating: newFeedback.rating,
+        comments: newFeedback.comments
+      })
+      
       const { error } = await supabase
         .from('feedback_ratings')
         .insert([{
@@ -71,15 +79,20 @@ export const TeacherFeedbackSystem: React.FC<TeacherFeedbackSystemProps> = ({ cu
           comments: newFeedback.comments
         }])
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
 
+      console.log('Feedback submitted successfully')
       await fetchFeedbacks()
       setNewFeedback({ rating: 5, comments: '' })
       setShowFeedbackModal(false)
       setSelectedCandidate(null)
     } catch (error) {
       console.error('Error submitting feedback:', error)
-      alert('Failed to submit feedback. Please try again.')
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      alert(`Failed to submit feedback: ${errorMessage}. Please try again.`)
     } finally {
       setIsSubmitting(false)
     }

@@ -47,23 +47,40 @@ export const FeedbackModal: React.FC<FeedbackModalProps> = ({
     setIsSubmitting(true)
     
     try {
+      const actualModuleId = moduleId === 'dmrp' ? 'dmrp' : moduleId
+      const actualSessionType = sessionType === 'dmrp' ? 'dmrp' : sessionType
+      
+      console.log('Submitting feedback with params:', {
+        candidate_id: candidateId,
+        module_id: actualModuleId,
+        session_type: actualSessionType,
+        feedback_text: formData.feedbackText,
+        feedback_type: formData.feedbackType,
+        author: formData.author
+      })
+      
       const { error } = await supabase
         .from('feedback')
         .insert([{
           candidate_id: candidateId,
-          module_id: moduleId,
-          session_type: sessionType,
+          module_id: actualModuleId,
+          session_type: actualSessionType,
           feedback_text: formData.feedbackText,
           feedback_type: formData.feedbackType,
           author: formData.author
         }])
       
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
       
+      console.log('Feedback submitted successfully')
       onSuccess()
     } catch (error) {
       console.error('Error submitting feedback:', error)
-      setErrors({ submit: 'Failed to submit feedback. Please try again.' })
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      setErrors({ submit: `Failed to submit feedback: ${errorMessage}. Please try again.` })
     } finally {
       setIsSubmitting(false)
     }

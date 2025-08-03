@@ -69,6 +69,67 @@ export type Database = {
           updated_at?: string
         }
       }
+      sessions: {
+        Row: {
+          id: string
+          name: string
+          description: string
+          checklist: any
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string
+          checklist?: any
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string
+          checklist?: any
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      documents: {
+        Row: {
+          id: string
+          module_id: string
+          title: string
+          description: string
+          file_url: string
+          file_type: string
+          uploaded_by: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          module_id: string
+          title: string
+          description?: string
+          file_url: string
+          file_type?: string
+          uploaded_by?: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          module_id?: string
+          title?: string
+          description?: string
+          file_url?: string
+          file_type?: string
+          uploaded_by?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
       feedback: {
         Row: {
           id: string

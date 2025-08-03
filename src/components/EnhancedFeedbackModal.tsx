@@ -88,12 +88,15 @@ export const EnhancedFeedbackModal: React.FC<EnhancedFeedbackModalProps> = ({
         if (error) throw error
       } else {
         // Create new feedback
+        const actualModuleId = moduleId === 'dmrp' ? 'dmrp' : moduleId
+        const actualSessionType = sessionType === 'dmrp' ? 'dmrp' : sessionType
+        
         const { error } = await supabase
           .from('feedback')
           .insert([{
             candidate_id: candidateId,
-            module_id: moduleId,
-            session_type: sessionType,
+            module_id: actualModuleId,
+            session_type: actualSessionType,
             feedback_text: formData.feedbackText,
             feedback_type: formData.feedbackType,
             author: formData.author
@@ -105,7 +108,7 @@ export const EnhancedFeedbackModal: React.FC<EnhancedFeedbackModalProps> = ({
       onSuccess()
     } catch (error) {
       console.error('Error submitting feedback:', error)
-      setErrors({ submit: 'Failed to submit feedback. Please try again.' })
+      setErrors({ submit: `Failed to submit feedback: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.` })
     } finally {
       setIsSubmitting(false)
     }
@@ -120,10 +123,13 @@ export const EnhancedFeedbackModal: React.FC<EnhancedFeedbackModalProps> = ({
     setIsSubmitting(true)
     
     try {
+      const actualModuleId = moduleId === 'dmrp' ? 'dmrp' : moduleId
+      const actualSessionType = sessionType === 'dmrp' ? 'dmrp' : sessionType
+      
       const feedbackEntries = parsedFeedbacks.map(feedback => ({
         candidate_id: candidateId,
-        module_id: moduleId,
-        session_type: sessionType,
+        module_id: actualModuleId,
+        session_type: actualSessionType,
         feedback_text: feedback.text,
         feedback_type: feedback.type,
         author: formData.author
@@ -138,7 +144,7 @@ export const EnhancedFeedbackModal: React.FC<EnhancedFeedbackModalProps> = ({
       onSuccess()
     } catch (error) {
       console.error('Error submitting bulk feedback:', error)
-      setErrors({ submit: 'Failed to submit feedback. Please try again.' })
+      setErrors({ submit: `Failed to submit bulk feedback: ${error instanceof Error ? error.message : 'Unknown error'}. Please try again.` })
     } finally {
       setIsSubmitting(false)
     }

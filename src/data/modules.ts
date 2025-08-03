@@ -63,7 +63,7 @@ export const dmrpSessions = [
     type: 'DMRP Program',
     description: 'DexConnect Meeting and Retraining Program',
     sessions: [
-      { id: 'dmrp-session', name: 'DMRP Session', type: 'dmrp' }
+      { id: 'dmrp', name: 'DMRP Session', type: 'dmrp' }
     ]
   }
 ]

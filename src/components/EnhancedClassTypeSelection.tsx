@@ -210,30 +210,28 @@ export const EnhancedClassTypeSelection: React.FC = () => {
                 <h3 className="text-2xl font-bold text-white mb-2">DMRP</h3>
                 <p className="text-gray-300 mb-4 text-sm">DexConnect Meeting and Retraining Program</p>
                 
-                {dmrpSessions.map((session) => (
-                  <Link key={session.id} to={`/candidate/${candidateId}/feedback/dmrp/dmrp`}>
-                    <motion.button
-                      className="w-full mb-4 px-6 py-3 bg-gradient-to-r from-purple-600/80 to-purple-700/80 text-white font-bold rounded-xl shadow-lg shadow-purple-500/25 border border-purple-500/30 transition-all duration-300"
-                      whileHover={{ 
-                        scale: 1.05, 
-                        y: -3,
-                        boxShadow: "0 20px 40px rgba(147, 51, 234, 0.3)"
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <div className="flex items-center justify-center gap-3">
-                        <GraduationCap className="w-5 h-5" />
-                        <span>Access DMRP Feedback</span>
-                        <motion.div
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          →
-                        </motion.div>
-                      </div>
-                    </motion.button>
-                  </Link>
-                ))}
+                <Link to={`/candidate/${candidateId}/feedback/dmrp/dmrp`}>
+                  <motion.button
+                    className="w-full mb-4 px-6 py-3 bg-gradient-to-r from-purple-600/80 to-purple-700/80 text-white font-bold rounded-xl shadow-lg shadow-purple-500/25 border border-purple-500/30 transition-all duration-300"
+                    whileHover={{ 
+                      scale: 1.05, 
+                      y: -3,
+                      boxShadow: "0 20px 40px rgba(147, 51, 234, 0.3)"
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <div className="flex items-center justify-center gap-3">
+                      <GraduationCap className="w-5 h-5" />
+                      <span>Access DMRP Feedback</span>
+                      <motion.div
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        →
+                      </motion.div>
+                    </div>
+                  </motion.button>
+                </Link>
               </div>
 
               {/* Divider */}

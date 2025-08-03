@@ -28,15 +28,22 @@ export const AdminFeedbackAnalytics: React.FC = () => {
 
   const fetchFeedbacks = async () => {
     try {
+      console.log('Fetching feedback ratings...')
       const { data, error } = await supabase
         .from('feedback_ratings')
         .select('*')
         .order('created_at', { ascending: false })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error fetching feedback ratings:', error)
+        throw error
+      }
+      
+      console.log('Fetched feedback ratings:', data)
       setFeedbacks(data || [])
     } catch (error) {
       console.error('Error fetching feedbacks:', error)
+      setFeedbacks([])
     } finally {
       setLoading(false)
     }

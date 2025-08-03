@@ -37,19 +37,40 @@ export const FeedbackOverview: React.FC = () => {
   }, [candidateId, moduleId, sessionType])
 
   const fetchFeedbacks = async () => {
+    if (!candidateId || !moduleId || !sessionType) {
+      console.error('Missing required parameters for fetching feedback')
+      setLoading(false)
+      return
+    }
+    
     try {
+      const actualModuleId = moduleId === 'dmrp' ? 'dmrp' : moduleId
+      const actualSessionType = sessionType === 'dmrp' ? 'dmrp' : sessionType
+      
+      console.log('Fetching feedback with params:', {
+        candidate_id: candidateId,
+        module_id: actualModuleId,
+        session_type: actualSessionType
+      })
+      
       const { data, error } = await supabase
         .from('feedback')
         .select('*')
         .eq('candidate_id', candidateId)
-        .eq('module_id', moduleId || 'outside-class')
-        .eq('session_type', sessionType || 'social')
+        .eq('module_id', actualModuleId)
+        .eq('session_type', actualSessionType)
         .order('created_at', { ascending: false })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        throw error
+      }
+      
+      console.log('Fetched feedbacks:', data)
       setFeedbacks(data || [])
     } catch (error) {
       console.error('Error fetching feedbacks:', error)
+      setFeedbacks([])
     } finally {
       setLoading(false)
     }
